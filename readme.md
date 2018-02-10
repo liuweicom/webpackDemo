@@ -58,3 +58,194 @@ events.js:160  throw er; // Unhandled 'error' event或者events.js:160       thr
 [报错解决方法参考原文](http://www.cnblogs.com/lxxhome/p/7154452.html)
 
 其他的太乱了。改进以后再写。。。。
+
+##Eslint配置
+参考【http://blog.csdn.net/walid1992/article/details/54633760】
+env：你的脚本将要运行在什么环境中Environment可以预设好的其他环境的全局变量，如brower、node环境变量、es6环境变量、mocha环境变量等
+'env': {
+    'browser': true,
+    'commonjs': true,
+    'es6': true
+  }
+  globals：额外的全局变量
+
+示例：
+
+globals: {
+    vue: true,
+    wx: true
+  },
+1
+2
+3
+4
+rules：开启规则和发生错误时报告的等级
+
+示例：
+
+'rules': {
+    // no-var
+    'no-var': 'error',
+    // 要求或禁止 var 声明中的初始化
+    'init-declarations': 2,
+    // 强制使用单引号
+    'quotes': ['error', 'single'],
+    // 要求或禁止使用分号而不是 ASI
+    'semi': ['error', 'never'],
+    // 禁止不必要的分号
+    'no-extra-semi': 'error',
+    // 强制使用一致的换行风格
+    'linebreak-style': ['error', 'unix'],
+    // 空格2个
+    'indent': ['error', 2, {'SwitchCase': 1}],
+    // 指定数组的元素之间要以空格隔开(,后面)， never参数：[ 之前和 ] 之后不能带空格，always参数：[ 之前和 ] 之后必须带空格
+    'array-bracket-spacing': [2, 'never'],
+    // 在块级作用域外访问块内定义的变量是否报错提示
+    'block-scoped-var': 0,
+    // if while function 后面的{必须与if在同一行，java风格。
+    'brace-style': [2, '1tbs', {'allowSingleLine': true}],
+    // 双峰驼命名格式
+    'camelcase': 2,
+    // 数组和对象键值对最后一个逗号， never参数：不能带末尾的逗号, always参数：必须带末尾的逗号， 
+    'comma-dangle': [2, 'never'],
+    // 控制逗号前后的空格
+    'comma-spacing': [2, {'before': false, 'after': true}],
+    // 控制逗号在行尾出现还是在行首出现
+    'comma-style': [2, 'last'],
+    // 圈复杂度
+    'complexity': [2, 9],
+    // 以方括号取对象属性时，[ 后面和 ] 前面是否需要空格, 可选参数 never, always
+    'computed-property-spacing': [2, 'never'],
+    // TODO 关闭 强制方法必须返回值，TypeScript强类型，不配置
+    // 'consistent-return': 0
+  }
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+规则的错误等级有三种：
+
+0或'off'：关闭规则。
+1或'warn'：打开规则，并且作为一个警告（并不会导致检查不通过）。
+2或'error'：打开规则，并且作为一个错误 (退出码为1，检查不通过)。
+1
+2
+3
+4
+参数说明：
+
+参数1 ： 错误等级 
+参数2 ： 处理方式
+
+"comma-dangle": ["error", "never"],
+1
+上述配置只是简要将最基本的一些配置罗略出来，如果有需要建议去上方官网中查看。
+
+配置代码注释方式
+有时我们可能要在代码中忽略eslint的某种检查，或者加入某种特定检查，此时我们可以用如下的方式：
+
+示例：
+
+忽略 no-undef 检查
+/* eslint-disable no-undef */ 
+1
+忽略 no-new 检查
+/* eslint-disable no-new */ 
+1
+设置检查
+/*eslint eqeqeq: off*/
+/*eslint eqeqeq: 0*/
+1
+2
+eslint 检查指令
+检查且修复
+eslint * --fix
+1
+检查指定文件
+eslint app.js --fix
+--parser
+该选项允许你为 ESLint 指定一个解析器。默认情况下，使用 espree。
+extends 属性值可以是：
+在配置中指定的一个字符串
+字符串数组：每个配置继承它前面的配置
+Using "eslint:recommended"
+值为 "eslint:recommended" 的 extends 属性启用一系列核心规则，这些规则报告一些常见问题，在 规则页面 中被标记为  。这个推荐的子集只能在 ESLint 主要版本进行更新。
+如果你的配置集成了推荐的规则：在你升级到 ESLint 新的主版本之后，在你使用命令行的 --fix 选项之前，检查一下报告的问题，这样你就知道一个新的可修复的推荐的规则将更改代码。
+eslint --init 命令可以创建一个配置，这样你就可以继承推荐的规则。
+JavaScript 格式的一个配置文件的例子：
+module.exports = {
+    "extends": "eslint:recommended",
+    "rules": {
+        // enable additional rules
+        "indent": ["error", 4],
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "double"],
+        "semi": ["error", "always"],
+        // override default options for rules from base configurations
+        "comma-dangle": ["error", "always"],
+        "no-cond-assign": ["error", "always"],
+        // disable rules from base configurations
+        "no-console": "off",
+    }
+}
+这个选项指定一个要加载的插件。你可以省略插件名的前缀 eslint-plugin-。在你使用插件直接，你必须使用 npm 安装它
+parserOptions其中可配置的参数包括：
+
+ecmaVersion - ECMAScript的版本，3、5(默认)、6
+sourceType -
+ecmaFeatures - 表示一些附加特性的对象：
+globalReturn - 在全局作用域允许return 语句
+impliedStrict - strict模式（ecma版本大于等于5）
+jsx - 支持jsx
+experimentalObjectRestSpread -
+.ealintrc.json文件示例：
+{
+"parserOptions": {
+"ecmaVersion": 6,
+"sourceType": "module",
+"ecmaFeatures": {
+"jsx": true
+},
+},
+"rules": {
+"semi": 2
+}
+}
+parserOptions的配置决定ESLint认为哪些是错误。默认规则都是false
+
+作者：guo_xiaoqing
+链接：https://www.jianshu.com/p/2c7dd7cab6e5
+來源：简书
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。

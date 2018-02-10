@@ -1,0 +1,14 @@
+node_modules/**
+src/vendor/**
+dist/**
+lib/**
+**/*.map
+**/*.css
+**/*.scss
+**/*.html
+**/*.md
+**/*.svg
+**/*.png
+**/*.iml
+**/*.mp3
+**/*.ejs

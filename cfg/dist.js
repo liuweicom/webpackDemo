@@ -42,8 +42,8 @@ let config = Object.assign({}, baseConfig, {
                 }
             }
         }),
-        new webpack.optimize.AggressiveMergingPlugin(),//????
-        new webpack.NoEmitOnErrorsPlugin()//????
+        new webpack.optimize.AggressiveMergingPlugin(),//AggressiveMergingPlugin
+        new webpack.NoEmitOnErrorsPlugin()//在编译出现错误时，使用 NoEmitOnErrorsPlugin 来跳过输出阶段。这样可以确保输出资源不会包含错误
 	].concat(defaultSettings.plugins),
     module: defaultSettings.getDefaultModules()
 });

@@ -2,7 +2,7 @@
 
 let path = require('path');
 let webpack = require('webpack');
-const srcPath = path.join(__dirname, '../src');
+const glob = require('glob');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const minimize = process.env.REACT_WEBPACK_ENV === 'dist';
 
@@ -123,7 +123,7 @@ function getDefaultModeuleExport() {
 const files = glob.sync('./src/*.jsx');
 let entryKeys = [];
 const entries = files.reduce(function(memo,file){
-	const name= files.basename(file, path.extname(file));
+	const name= path.basename(file, path.extname(file));
 	entryKeys.push(name);
 	memo[name] = file;
 	return memo;
@@ -137,11 +137,13 @@ const defaulePort = 8300;
 const lodashWebpackPlugin = require('lodash-webpack-plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
 const htmlWebpackPlugin = require('html-webpack-plugin');
+const marked = require('marked');
+const renderer = new marked.Renderer();
 let plugins = [
 	//这个插件配置全局/共享的 loader 配置，使所有的 loader 都能收到这些配置。
-	new webpack.LoaderOptionPlugin({
-		debug: true
-	}),
+	new webpack.LoaderOptionsPlugin({
+            debug: true
+        }),
 	//优化压缩之后的大小
 	new lodashWebpackPlugin({
 		paths: true
@@ -160,7 +162,7 @@ let plugins = [
 	// context                         可选 默认base context可用specific context
 	// flatten 只拷贝文件不管文件夹      默认是false
 	// ignore  忽略拷贝指定的文件           可以用模糊匹配
-	new copyWebpackPlugin({}),
+	new copyWebpackPlugin([]),
 
 	// name：可以是已经存在的chunk（一般指入口文件）对应的name，那么就会把公共模块代码合并到这个chunk上；否则，会创建名字为name的commons chunk进行合并
 	// filename：指定commons chunk的文件名
@@ -205,18 +207,18 @@ let plugins = [
 	// minify: {....}|false；传递 html-minifier 选项给 minify 输出，false就是不使用html压缩。
 	new htmlWebpackPlugin({			//多个页面时一般需要配置多个
 		template: 'src/lib/app/index.ejs',
-		filename：'index.html',//输出时的文件名
+		filename: 'index.html',//输出时的文件名
 		title: 'hello world',
 		cache: true,
 		favicon: 'src/lib/liuweicom.jpg',
 		stylesheets: [],       //自定义一些自己想要添加到页面中的css，这里面应用的路径是编译之后所在的路径！！
 		script: [],            //自定义一些想要添加到页面中的js，这里面应用的路径是编译之后所在的路径
-		chunks：[],				//更具入口划分的块，你需要添加的对应的块的js文件，会自动添加
+		chunks: ['vendor', 'common'],//更具入口划分的块,你需要添加的对应的块的js文件,会自动添加
 		minify: {				//html中需要压缩的东西
 			removeComments: true,
 			collapseWhitespace: minimize
 		}				
-	});
+	})
 ];
 const additionalPaths = [];
 module.exports = {
@@ -227,5 +229,17 @@ module.exports = {
 	srcPath: srcPath,
 	entryKeys: entryKeys,
 	plugins: plugins,
-	additionalPaths: additionalPaths
+	additionalPaths: additionalPaths,
+	markdownLoader: {
+        markedOptions: {
+            renderer: renderer,
+            gfm: true,
+            tables: true,
+            breaks: true,
+            pedantic: true,
+            sanitize: true,
+            smartLists: true,
+            smartypants: true
+        }
+    },
 };

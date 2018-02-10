@@ -6,19 +6,19 @@
  let baseConfig = require('./base');
  let defaultSetting = require('./default');
 
- let entry = object.assign({}, defaultSetting.entry);;
+ let entry = Object.assign({}, defaultSetting.entry);;
 
 //自动添加 webpack-dev-server 配置
-defaultSettings.entryKeys.forEach((key) => {
+defaultSetting.entryKeys.forEach((key) => {
     entry[key] = [
     	// 写在入口文件之前
-        'webpack-dev-server/client?http://0.0.0.0:' + defaultSettings.port,
+        'webpack-dev-server/client?http://0.0.0.0:' + defaultSetting.port,
         'webpack/hot/only-dev-server',//前两个必须写在前面，并且安装webpack-hotloader必须先安装webpack-dev-server，详细看wepack-hot-ader
         entry[key]
     ];
 });
 
- let config = object.assign({},baseConfig,{
+ let config = Object.assign({},baseConfig,{
  	devtool: 'eval-source-map',
  	entry: entry,
  	cache: true,

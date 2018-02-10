@@ -222,7 +222,6 @@ module.exports = {
 }
 这个选项指定一个要加载的插件。你可以省略插件名的前缀 eslint-plugin-。在你使用插件直接，你必须使用 npm 安装它
 parserOptions其中可配置的参数包括：
-
 ecmaVersion - ECMAScript的版本，3、5(默认)、6
 sourceType -
 ecmaFeatures - 表示一些附加特性的对象：
@@ -244,8 +243,31 @@ experimentalObjectRestSpread -
 }
 }
 parserOptions的配置决定ESLint认为哪些是错误。默认规则都是false
-
 作者：guo_xiaoqing
 链接：https://www.jianshu.com/p/2c7dd7cab6e5
 來源：简书
 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+###babel配置：参考：【 https://github.com/thejameskyle/babel-handbook/blob/master/translations/zh-Hans/user-handbook.md#toc-babelrc】
+Babel 插件解决许多不同的问题。 其中大多数是开发工具，可以帮助你调试代码或是与工具集成。 也有大量的插件用于在生产环境中优化你的代码。
+因此，想要基于环境来配置 Babel 是很常见的。你可以轻松的使用 .babelrc 文件来达成目的。
+  {
+    "presets": ["es2015"],
+    "plugins": [],
++   "env": {
++     "development": {
++       "plugins": [...]
++     },
++     "production": {
++       "plugins": [...]
++     }
+    }
+  }
+
+
+babel-plugin-import
+按需加载插件。只需要引入模块即可，无需单独引入样式
+导入js和css模块（css 内置文件）：
+[javascript] view plain copy
+["import", { "libraryName": "antd", "style": "css或者为true" }]  
+如果webpack配置文件添加了vendor库，babel-plugin-import将不会工作。
+注意：babel,eslint的配置项中的插件名都是省略了前缀的

@@ -1,3 +1,25 @@
 {
-  "presets": ["react", "es2015"]
+  "presets": [
+  	"react",
+  	"stage-0",
+  	"es2015"
+  ],
+  "plugins":[
+  	"import",
+  	[
+  		{
+  			"libraryName":"antd",
+  			"style": true
+  		}
+  	],
+  	"transform-decorators-legacy"
+  ],
+  "env": {
+  	"build": {
+  		"optional": [
+  			 "optimisation",
+             "minification"
+  		]
+  	}
+  }
 }

@@ -1,7 +1,7 @@
 'use strict';
  
- let path = require('path');;
- let webpack = require('webpack');;
+ let path = require('path');
+ let webpack = require('webpack');
 
  let baseConfig = require('./base');
  let defaultSetting = require('./default');
@@ -26,17 +26,21 @@ defaultSetting.entryKeys.forEach((key) => {
  		new webpack.HotModuleReplacementPlugin(),//模块热替换(HMR)交换, 添加, 或者删除模块, 同时应用持续运行, 不需要页面刷新.
         new webpack.NamedModulesPlugin(), // 热替换时返回更新的文件名，而不是id
         new webpack.NoEmitOnErrorsPlugin()//在编译出现错误时，使用 NoEmitOnErrorsPlugin 来跳过输出阶段。这样可以确保输出资源不会包含错误。对于所有资源，统计资料(stat)的 emitted 标识都是 false。
- 	],
- 	module: defaultSetting.getDefaultModeuleExport()
+ 	].concat(defaultSetting.plugins),
+ 	module:{
+ 		rules:[]
+ 	} 
  });
-
+// ,
+//  	module: defaultSetting.getDefaultModeuleExport()
  config.module.rules.push({
- 	test: /\.(js|jsx)$/,
- 	use: ['react-hot-loader/webpack', 'babel-loader'],//就是使用 react 编写代码时，能让修改的部分自动刷新。但这和自动刷新网页是不同的，因为 hot-loader 并不会刷新网页，而仅仅是替换你修改的部分，参考https://segmentfault.com/a/1190000004660311
- 	include: [].concat(
- 		defaultSetting.additionalPath,
- 		[path.join(__dirname,'./../src')]
- 		)
+ 	//使用 react-hot 的标准配置，babel-loader 通过参数的方式跟在 react-hot 后
+    test: /\.(js|jsx)$/,
+    use: ['react-hot-loader/webpack', 'babel-loader'],
+    include: [].concat(
+        defaultSetting.additionalPaths,
+        [path.join(__dirname, '/../src')]
+    )
  });
 
  config.devServer.stats = 'errors-only';

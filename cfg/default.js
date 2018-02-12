@@ -4,9 +4,9 @@ let path = require('path');
 let webpack = require('webpack');
 const glob = require('glob');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const minimize = process.env.REACT_WEBPACK_ENV === 'dist';
+const minimize = process.env.REACT_WEBPACK_ENV === 'prod';
 
-function getDefaultModeuleExport() {
+function getDefaultModuleExport(){
 	return {
 		// test：用于匹配处理文件的扩展名的表达式，这个选项是必须进行配置的；
 		// use：loader名称，就是你要使用模块的名称，这个选项也必须进行配置，否则报错；
@@ -17,13 +17,8 @@ function getDefaultModeuleExport() {
 		rules: [{
 			test: /\.(js|jsx)$/,
 			include: srcPath, //指定需要要处理的文件，此处为自己写的代码的位置
-			enforce: 'pre', // 标识应用这些规则，即使规则覆盖（高级选项）,表示这个必须的应用的规则
-			use: ['eslint-loader'] //use的调用顺序是从右到左，从里到外
-		}, {
-			test: /\.js\.maps/,
-			use: {
-				loader: 'file-loader'
-			}
+			// enforce: 'pre', // 标识应用这些规则，即使规则覆盖（高级选项）,表示这个必须的应用的规则
+			use: 'eslint-loader' //use的调用顺序是从右到左，从里到外
 		}, {
 			test: /\.md$/,
 			use: ['html-loader', 'markdown-loader']
@@ -52,7 +47,7 @@ function getDefaultModeuleExport() {
 						minimize: minimize
 					}
 				},{
-					loader:'post-loader',
+					loader:'postcss-loader',
 					options: {
 						sourceMap: true
 					}
@@ -61,7 +56,7 @@ function getDefaultModeuleExport() {
 					options: {
 						sourceMap: true,
 						minimize: minimize,
-						outputStyle: 'expanded'//?????budong
+						// outputStyle: 'expanded'//?????budong
 					}
 				}]
 			})
@@ -78,7 +73,7 @@ function getDefaultModeuleExport() {
 						minimize: minimize
 					}
 				},{
-					loader:'post-loader',
+					loader:'postcss-loader',
 					options: {
 						sourceMap: true
 					}
@@ -115,7 +110,7 @@ function getDefaultModeuleExport() {
                     name: 'static/images/[name].[hash:8].[ext]'
                 }
             }]
-	}
+	};
 }
 
 //自动从 entries 获取需要打包的 js 文件
@@ -161,8 +156,9 @@ let plugins = [
 	// force   强制覆盖先前的插件           可选 默认false
 	// context                         可选 默认base context可用specific context
 	// flatten 只拷贝文件不管文件夹      默认是false
-	// ignore  忽略拷贝指定的文件           可以用模糊匹配
-	new copyWebpackPlugin([]),
+	// ignore  忽略拷贝指定的文件可以用模糊匹配
+	
+	// new copyWebpackPlugin([]),
 
 	// name：可以是已经存在的chunk（一般指入口文件）对应的name，那么就会把公共模块代码合并到这个chunk上；否则，会创建名字为name的commons chunk进行合并
 	// filename：指定commons chunk的文件名
@@ -222,7 +218,7 @@ let plugins = [
 ];
 const additionalPaths = [];
 module.exports = {
-	getDefaultModeuleExport: getDefaultModeuleExport,
+	getDefaultModuleExport: getDefaultModuleExport,
 	port: defaulePort,
 	entry: entries,
 	publicPath: './',

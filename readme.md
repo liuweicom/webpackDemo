@@ -1,19 +1,48 @@
 # webpack-----遇坑记
 #### 导语：
-	作为一个前端小白，最近学习react的过程中，经常遇到新建项目，需要使用webpack，完全懵逼，碰到各种命令行报错，整的我都要怀疑人生。最近特地看了一些文档整理一下，结果还是遇到各种问题，有些还没解决，如果有幸被大佬看到，希望能够指点迷津，指条学习webpack的大道。
+	作为一个前端小白，最近学习react的过程中，经常遇到新建项目，需要使用webpack，完全懵逼，碰到各种命令行报错，
+	整的我都要怀疑人生。最近特地看了一些文档整理一下，结果还是遇到各种问题，有些还没解决，如果有幸被大佬看到，
+	希望能够指点迷津，指条学习webpack的大道。
 ****
-## 参考文章
-   *[webpack－生产环境最佳实践](http://blog.csdn.net/cotexarm7/article/details/76836732)
-   *[Webpack入门](http://blog.csdn.net/liujie19901217/article/details/51026943)
+## 参考文章和视频
+   *[Webpack3.X版 成神之路 全网首发 (共24集)](http://jspang.com/2017/09/16/webpack3-2/)
+   *[Webpack 2 视频教程](https://devopen.club/course/webpack)
    *[webpack中文文档](https://doc.webpack-china.org/guides/getting-started/)
 
-## 常用的webpack命令
-* 在开发环境构建一次 
-webpack 
-* 构建并生成源代码映射文件 
-webpack -d 
-* 在生成环境构建，压缩、混淆代码，并移除无用代码 
-webpack -p 
+## 工程目录说明
+* package.json 
+
+    npm 管理配置，主要存放npm安装的第三方插件名和版本号等信息
+
+* node_modules 
+
+    被npm安装第三方包存放位置，使用npm install命令行安装
+
+* webpack.config.js
+
+    webpack 主配置，通过命令行参数从 cfg 目录下导入合适的配置
+
+* cfg
+
+    webpack 多配置，分为开发、发布、测试
+     
+*src 
+
+    下直接对应的.jsx文件，为多个页面，对应的多个入口文件
+    *app为对应多个页面的的内容
+    *liuweicom为本工程的核心源代码目录
+    
+    
+*babelrc文件
+    
+    babel配置文件，编译es6，react需要
+    
+*eslintrc
+    
+    校验语法问题
+    
+*
+   
 * 快速增量构建，可以和其他选项一起使用 
 webpack –watch 
 * progress 显示打包过程中的进度，colors打包信息带有颜色显示 

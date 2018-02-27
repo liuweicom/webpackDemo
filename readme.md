@@ -271,3 +271,6 @@ babel-plugin-import
 ["import", { "libraryName": "antd", "style": "css或者为true" }]  
 如果webpack配置文件添加了vendor库，babel-plugin-import将不会工作。
 注意：babel,eslint的配置项中的插件名都是省略了前缀的
+
+
+postBuild:在某个命令行的前面加上post，npm会自动执行post前面的命令。

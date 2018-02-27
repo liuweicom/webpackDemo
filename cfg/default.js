@@ -4,7 +4,6 @@ let webpack = require('webpack');
 const glob = require('glob');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const minimize = process.env.REACT_WEBPACK_ENV === 'prod';
-
 function getDefaultModuleExport(){
 	return {
 		// test：用于匹配处理文件的扩展名的表达式，这个选项是必须进行配置的；
@@ -55,7 +54,7 @@ function getDefaultModuleExport(){
 					options: {
 						sourceMap: true,
 						minimize: minimize,
-						// outputStyle: 'expanded'//?????budong
+						outputStyle: 'expanded'//?????budong
 					}
 				}]
 			})
@@ -174,6 +173,7 @@ let plugins = [
 	// minChunks：既可以是数字，也可以是函数，还可以是Infinity，具体用法和区别下面会说
 	new webpack.optimize.CommonsChunkPlugin({
             //可以指定多个 entryName，打出多个 common 包
+        	login: '../src/login.jsx',
             index: '../src/index.jsx',
             names: ['common', 'vendor'], // 最后一项包含 webpack runtime
             minChunks: 2 // 被引用超过2次的模块放入common.js (对多页有意义，单页不会生成 common.js)
@@ -214,14 +214,31 @@ let plugins = [
 		favicon: 'src/liuweicom/lib/liuweicom.jpg',
 		stylesheets: [],       //自定义一些自己想要添加到页面中的css，这里面应用的路径是编译之后所在的路径！！
 		script: [
-            'lib/lodash/lodash.min.js'
+            'lib/lodash/lodash.min.js',
+			'Constants.js'
 		],            //自定义一些想要添加到页面中的js，这里面应用的路径是编译之后所在的路径
 		chunks: ['vendor', 'common', 'index'],//更具入口划分的块,你需要添加的对应的块的js文件,会自动添加
 		minify: {				//html中需要压缩的东西
 			removeComments: true,
 			collapseWhitespace: minimize
 		}				
-	})
+	}),
+    new htmlWebpackPlugin({			//多个页面时一般需要配置多个
+        template: 'src/liuweicom/lib/app/index.ejs',
+        filename: 'login.html',//输出时的文件名
+        title: 'hello world',
+        cache: true,
+        favicon: 'src/liuweicom/lib/liuweicom.jpg',
+        stylesheets: [],       //自定义一些自己想要添加到页面中的css，这里面应用的路径是编译之后所在的路径！！
+        script: [
+            'Constants.js'
+        ],            //自定义一些想要添加到页面中的js，这里面应用的路径是编译之后所在的路径
+        chunks: ['vendor', 'common', 'login'],//更具入口划分的块,你需要添加的对应的块的js文件,会自动添加
+        minify: {				//html中需要压缩的东西
+            removeComments: true,
+            collapseWhitespace: minimize
+        }
+    })
 ];
 const additionalPaths = [];
 module.exports = {

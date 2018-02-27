@@ -5,7 +5,7 @@ let webpack = require('webpack');
 let UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 let webpackNotifierPlugin = require('webpack-notifier');
 let baseConfig = require('./base');
-let defaultSetting = require('./defaults');
+let defaultSetting = require('./default.js');
 
 let config = Object.assign({}, baseConfig, {
 	entry: defaultSetting.entry,
@@ -47,7 +47,6 @@ let config = Object.assign({}, baseConfig, {
 	].concat(defaultSetting.plugins),
     module: defaultSetting.getDefaultModuleExport()
 });
-
 // Add needed loaders to the defaults here
 // js 处理，使用 babel 进行转码
 config.module.rules.push({

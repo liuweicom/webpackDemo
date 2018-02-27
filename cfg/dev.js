@@ -1,12 +1,11 @@
 'use strict';
- 
- let path = require('path');
+let path = require('path');
  let webpack = require('webpack');
 
  let baseConfig = require('./base');
  let defaultSetting = require('./default');
 
- let entry = Object.assign({}, defaultSetting.entry);;
+ let entry = Object.assign({}, defaultSetting.entry);
 
 //自动添加 webpack-dev-server 配置
 defaultSetting.entryKeys.forEach((key) => {
@@ -27,12 +26,9 @@ defaultSetting.entryKeys.forEach((key) => {
         new webpack.NamedModulesPlugin(), // 热替换时返回更新的文件名，而不是id
         new webpack.NoEmitOnErrorsPlugin()//在编译出现错误时，使用 NoEmitOnErrorsPlugin 来跳过输出阶段。这样可以确保输出资源不会包含错误。对于所有资源，统计资料(stat)的 emitted 标识都是 false。
  	].concat(defaultSetting.plugins),
- 	module:{
- 		rules:[]
- 	} 
+     module: defaultSetting.getDefaultModuleExport()
  });
-// ,
-//  	module: defaultSetting.getDefaultModeuleExport()
+
  config.module.rules.push({
  	//使用 react-hot 的标准配置，babel-loader 通过参数的方式跟在 react-hot 后
     test: /\.(js|jsx)$/,
@@ -45,4 +41,4 @@ defaultSetting.entryKeys.forEach((key) => {
 
  config.devServer.stats = 'errors-only';
 
- module.exports = config;
+module.exports = config;

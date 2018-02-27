@@ -1,5 +1,4 @@
 'use strict';
-
 let path = require('path');
 let webpack = require('webpack');
 const glob = require('glob');
@@ -17,7 +16,7 @@ function getDefaultModuleExport(){
 		rules: [{
 			test: /\.(js|jsx)$/,
 			include: srcPath, //指定需要要处理的文件，此处为自己写的代码的位置
-			// enforce: 'pre', // 标识应用这些规则，即使规则覆盖（高级选项）,表示这个必须的应用的规则
+			enforce: 'pre', // 标识应用这些规则，即使规则覆盖（高级选项）,表示这个必须的应用的规则
 			use: 'eslint-loader' //use的调用顺序是从右到左，从里到外
 		}, {
 			test: /\.md$/,
@@ -128,7 +127,7 @@ const entries = files.reduce(function(memo,file){
 
 
 const srcPath = path.join(__dirname,'/../src');
-const defaulePort = 8300;
+const defaultPort = 8301;
 const lodashWebpackPlugin = require('lodash-webpack-plugin');
 const copyWebpackPlugin = require('copy-webpack-plugin');
 const htmlWebpackPlugin = require('html-webpack-plugin');
@@ -158,7 +157,16 @@ let plugins = [
 	// flatten 只拷贝文件不管文件夹      默认是false
 	// ignore  忽略拷贝指定的文件可以用模糊匹配
 	
-	// new copyWebpackPlugin([]),
+	new copyWebpackPlugin([
+		{from: 'node_modules/react/dist', to: 'lib/react/dist/'},
+		{from: 'node_modules/react-dom/dist', to: 'lib/react-dom/dist/'},
+        {from: 'node_modules/lodash', to: 'lib/lodash/'}
+	],{
+		ignore: [
+			'*.less',
+			'*.scss'
+		]
+	}),
 
 	// name：可以是已经存在的chunk（一般指入口文件）对应的name，那么就会把公共模块代码合并到这个chunk上；否则，会创建名字为name的commons chunk进行合并
 	// filename：指定commons chunk的文件名
@@ -167,9 +175,6 @@ let plugins = [
 	new webpack.optimize.CommonsChunkPlugin({
             //可以指定多个 entryName，打出多个 common 包
             index: '../src/index.jsx',
-            login: '../src/login.jsx',
-            register: '../src/register.jsx',
-            registerResult: '../src/registerResult.jsx',
             names: ['common', 'vendor'], // 最后一项包含 webpack runtime
             minChunks: 2 // 被引用超过2次的模块放入common.js (对多页有意义，单页不会生成 common.js)
         }),
@@ -202,14 +207,16 @@ let plugins = [
 	// showErrors: true|false，默认true；是否将错误信息输出到html页面中。这个很有用，在生成html文件的过程中有错误信息，输出到页面就能看到错误相关信息便于调试。
 	// minify: {....}|false；传递 html-minifier 选项给 minify 输出，false就是不使用html压缩。
 	new htmlWebpackPlugin({			//多个页面时一般需要配置多个
-		template: 'src/lib/app/index.ejs',
+		template: 'src/liuweicom/lib/app/index.ejs',
 		filename: 'index.html',//输出时的文件名
 		title: 'hello world',
 		cache: true,
-		favicon: 'src/lib/liuweicom.jpg',
+		favicon: 'src/liuweicom/lib/liuweicom.jpg',
 		stylesheets: [],       //自定义一些自己想要添加到页面中的css，这里面应用的路径是编译之后所在的路径！！
-		script: [],            //自定义一些想要添加到页面中的js，这里面应用的路径是编译之后所在的路径
-		chunks: ['vendor', 'common'],//更具入口划分的块,你需要添加的对应的块的js文件,会自动添加
+		script: [
+            'lib/lodash/lodash.min.js'
+		],            //自定义一些想要添加到页面中的js，这里面应用的路径是编译之后所在的路径
+		chunks: ['vendor', 'common', 'index'],//更具入口划分的块,你需要添加的对应的块的js文件,会自动添加
 		minify: {				//html中需要压缩的东西
 			removeComments: true,
 			collapseWhitespace: minimize
@@ -219,7 +226,7 @@ let plugins = [
 const additionalPaths = [];
 module.exports = {
 	getDefaultModuleExport: getDefaultModuleExport,
-	port: defaulePort,
+	port: defaultPort,
 	entry: entries,
 	publicPath: './',
 	srcPath: srcPath,

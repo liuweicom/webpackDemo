@@ -9,7 +9,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit">
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <link rel="stylesheet" href="./uwd-theme-dark.css" id="dark-css"/>
     <% var stylesheets = htmlWebpackPlugin.options.stylesheets || [] %>
     <% for(var i = 0; i < stylesheets.length; i++) { %>
     <link rel="stylesheet" href="<%= stylesheets[i] %>">
@@ -17,7 +16,6 @@
 </head>
 <body>
 <div id="app"></div>
-<script type="text/javascript" src="lib/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="lib/react/dist/react.min.js"></script>
 <script type="text/javascript" src="lib/react-dom/dist/react-dom.min.js"></script>
 <% var scripts = htmlWebpackPlugin.options.scripts || [] %>

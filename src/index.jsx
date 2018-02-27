@@ -1,4 +1,5 @@
 import React from 'react';
 import {render} from 'react-dom';
+import WrapeView from './app/components/WrapView';
 
-render(<div>hello world</div>, document.getElementById('app'));
+render(<WrapeView />, document.getElementById('app'));

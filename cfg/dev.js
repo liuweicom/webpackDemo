@@ -12,7 +12,7 @@ defaultSetting.entryKeys.forEach((key) => {
     entry[key] = [
     	// 写在入口文件之前
         'webpack-dev-server/client?http://0.0.0.0:' + defaultSetting.port,
-        'webpack/hot/only-dev-server',//前两个必须写在前面，并且安装webpack-hotloader必须先安装webpack-dev-server，详细看wepack-hot-ader
+        'webpack/hot/only-dev-server',//前两个必须写在前面，并且安装webpack-hotloader必须先安装webpack-dev-server，详细看wepack-hot-loader
         entry[key]
     ];
 });

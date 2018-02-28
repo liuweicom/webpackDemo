@@ -28,7 +28,7 @@ function getDefaultModuleExport(){
 					loader: 'css-loader',
 					options: {
 						sourceMap: true,//可以在 Chrome 中编辑原始的 Sass 文件
-						minimize: minimize //当在开发环境下，进行压缩
+						minimize: minimize //当在生产环境下，进行压缩
 					}
 				}]
 			})

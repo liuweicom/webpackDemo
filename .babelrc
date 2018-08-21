@@ -1,3 +1,23 @@
 {
-  "presets": ["react", "es2015"]
+    "plugins": [
+        "lodash",
+        "transform-decorators-legacy",
+        [
+            "import",
+            [
+                {
+                    "libraryName": "antd"
+                },
+                {
+                    "libraryName": "uwd",
+                    "libraryDirectory": "lib"
+                }
+            ]
+        ]
+    ],
+    "presets": [
+        "es2015",
+        "stage-0",
+        "react"
+    ]
 }

@@ -1,1 +1,21 @@
+node
 node_modules
+pom.xml
+
+# idea
+.idea/
+*.ipr
+*.iml
+*.iws
+
+/cfg
+/src
+/dist/*
+!/dist/uwd**.css
+!/dist/uwd**.css.map
+!/dist/static/fonts/
+/dist/static/media/
+/test
+/docs
+/server.js
+/webpack.config.js
